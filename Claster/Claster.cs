@@ -11,45 +11,58 @@ namespace Kmean
     {
         public Claster()
         {
-            curClaster.X = null;
-            curClaster.Y = null;
+            Location.X = -1;
+            Location.Y = -1;
         }
         public Claster(int x, int y)
         {
-            curClaster.X = x;
-            curClaster.Y = y;
+            Location.X = x;
+            Location.Y = y;
         }
 
-        public CPoint this[int index] { get => points[index]; set => points[index] = value; }
+        public List<(CPoint,int?)> edges { get; set; } = new List<(CPoint,int?)>();
 
-        public List<CPoint> points{ get; set; }
-
-        public CPoint curClaster { get; set; }
+        public CPoint Location { get; set; } = new CPoint();
+        public CPoint Centroid { get; set; } = new CPoint();
 
         public void SetClusterPoint(int x, int y)
         {
-            curClaster.X = x;
-            curClaster.Y = y;
+            Location.X = x;
+            Location.Y = y;
         }
 
         public void SetClusterPoint(CPoint p)
         {
-            curClaster = p;
+            Location = p;
         }
 
-        public void AddPoint(int x, int y)
+        public void AddEdge(int x, int y, int? dis)
         {
-            points.Add(new CPoint(x, y));
+            edges.Add((new CPoint(x, y), dis));
         }
 
-        public void AddPoint(CPoint p)
+        public void AddEdge(CPoint p, int? dis)
         {
-            points.Add(p);
+            edges.Add((p,dis));
         }
 
         public IEnumerator GetEnumerator()
         {
-            return points.GetEnumerator();
+            return edges.GetEnumerator();
+        }
+
+        public void MoveToCentroid()
+        {
+            try
+            {
+                Location.X = Centroid.X;
+                Location.Y = Centroid.Y;
+                Centroid = null;
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine("Centroid doesn't exist!");
+            }
         }
     }
 }

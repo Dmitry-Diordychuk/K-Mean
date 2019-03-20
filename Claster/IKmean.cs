@@ -10,7 +10,6 @@ namespace Kmean
     {
         List<Claster> clasters { get; set; }
         List<CPoint> points { get; set; }
-        Claster this[int index] { get; set; }
         void AddClaster(Claster claster);
         void AddPoint(CPoint p);
     }
